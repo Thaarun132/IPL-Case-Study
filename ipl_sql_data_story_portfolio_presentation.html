@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IPL SQL Portfolio Data Story Presentation - Thaarun132</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { margin: 0; padding: 0; background-color: #000; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .slide-container {
+      width: 1280px;
+      height: 720px;
+      margin: 0 auto 40px auto;
+      overflow: hidden;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .sql-code-block {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #f8fafc;
+      line-height: 1.5;
+      overflow-x: auto;
+    }
+    .kw { color: #f43f5e; font-weight: 600; }
+    .tbl { color: #38bdf8; }
+    .str { color: #34d399; }
+    .num { color: #fbbf24; }
+    .fn { color: #c084fc; font-weight: 600; }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+    .data-table th {
+      background: #1e293b;
+      color: #38bdf8;
+      font-weight: 700;
+      padding: 8px 12px;
+      border-bottom: 2px solid #334155;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+    .data-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #1e293b;
+      font-weight: 500;
+    }
+    .data-table tr:nth-child(even) { background-color: #f8fafc; }
+    .badge-sql {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1: Hook - Why Compare IPL 2018 vs 2019? (Dark Ground) -->
+  <div class="slide-container" id="slide1" style="background:#0f172a; padding:56px 64px; justify-content:space-between;">
+    <div>
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+        <div style="display:flex; align-align:center; gap:12px;">
+          <span style="background:#2563eb; color:#ffffff; font-size:13px; font-weight:700; padding:6px 14px; border-radius:6px; letter-spacing:1px; text-transform:uppercase;">SQL Portfolio Case Study</span>
+          <span style="color:#94a3b8; font-size:14px; font-weight:600; padding:4px 0;">IPL 2018 vs 2019 BigQuery Analysis</span>
+        </div>
+        <span style="color:#38bdf8; font-size:14px; font-weight:700; font-family:'JetBrains Mono', monospace;"><i class="fa-brands fa-github" style="margin-right:6px;"></i>github.com/Thaarun132</span>
+      </div>
+      <h1 contenteditable="true" style="font-size:44px; font-weight:800; color:#f8fafc; line-height:1.15; max-width:1050px; margin-bottom:16px;">
+        Two Seasons, Shifted Dynamics: Decoding Tactical Evolution in IPL 2018 vs 2019
+      </h1>
+      <p contenteditable="true" style="font-size:18px; color:#cbd5e1; max-width:900px; line-height:1.4;">
+        An end-to-end relational database investigation using Google BigQuery to evaluate player performance consistency, team scoring dominance, and bowling containment efficiency.
+      </p>
+    </div>
+
+    <!-- Visual Layout & Hook Metrics -->
+    <div style="display:flex; gap:20px; width:100%;">
+      <div style="background:#1e293b; border:1px solid #334155; border-radius:12px; padding:22px; flex:1 1 0;">
+        <p style="font-size:34px; font-weight:800; color:#38bdf8; margin-bottom:4px;">1,250+ Runs</p>
+        <p style="font-size:15px; font-weight:700; color:#f8fafc; margin-bottom:4px;">Multi-Season Dominance</p>
+        <p style="font-size:13px; color:#94a3b8;">KL Rahul led all batters across 2018–2019 via INNER JOIN aggregations.</p>
+      </div>
+      <div style="background:#1e293b; border:1px solid #334155; border-radius:12px; padding:22px; flex:1 1 0;">
+        <p style="font-size:34px; font-weight:800; color:#34d399; margin-bottom:4px;">6.57 ER</p>
+        <p style="font-size:15px; font-weight:700; color:#f8fafc; margin-bottom:4px;">Elite Containment</p>
+        <p style="font-size:13px; color:#94a3b8;">Rashid Khan claimed 21 wickets while restricting runs under 7.0 per over.</p>
+      </div>
+      <div style="background:#1e293b; border:1px solid #334155; border-radius:12px; padding:22px; flex:1 1 0;">
+        <p style="font-size:34px; font-weight:800; color:#fbbf24; margin-bottom:4px;">105 Boundaries</p>
+        <p style="font-size:15px; font-weight:700; color:#f8fafc; margin-bottom:4px;">Power Hitting Record</p>
+        <p style="font-size:13px; color:#94a3b8;">Rishabh Pant topped boundary counts through combined arithmetic fields.</p>
+      </div>
+    </div>
+
+    <!-- SQL & Skill Badges -->
+    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #1e293b; padding-top:18px;">
+      <div style="display:flex; gap:20px;">
+        <span style="color:#94a3b8; font-size:14px;"><b>SQL Dialect:</b> Google BigQuery Standard SQL</span>
+        <span style="color:#94a3b8; font-size:14px;"><b>Author:</b> Thaarun132</span>
+      </div>
+      <span style="color:#38bdf8; font-size:14px; font-weight:600;"><b>Recruiter Takeaway:</b> Structured problem solving with relational datasets</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: Analytical Problem Statement (Light Ground) -->
+  <div class="slide-container" id="slide2" style="background:#ffffff; padding:56px 64px; justify-content:space-between;">
+    <div>
+      <p style="font-size:14px; font-weight:700; color:#2563eb; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Analytical Problem Statement</p>
+      <h2 style="font-size:32px; font-weight:800; color:#0f172a; margin-bottom:12px;">Uncovering Hidden Player Efficiency & Team Dominance Behind Raw Totals</h2>
+      <p style="font-size:17px; color:#475569; max-width:920px;">
+        Raw match totals hide tactical value. Franchise analysts require refined queries—filtering high scoring volume against strike rate constraints, and evaluating wicket takers against economy rates.
+      </p>
+    </div>
+
+    <!-- 3 Pillar Mapping -->
+    <div style="display:flex; gap:24px; width:100%;">
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:26px; flex:1 1 0;">
+        <div style="width:40px; height:40px; background:#eff6ff; border-radius:8px; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+          <i class="fa-solid fa-gauge-high" style="color:#2563eb; font-size:18px;"></i>
+        </div>
+        <h3 style="font-size:18px; font-weight:700; color:#0f172a; margin-bottom:8px;">Volume vs Speed Paradox</h3>
+        <p style="font-size:14px; color:#64748b; line-height:1.45;">High scoring volume is ineffective without speed. We query top scorers constrained by <code style="background:#e2e8f0; padding:2px 6px; border-radius:4px; font-family:'JetBrains Mono'">SR &gt;= 130</code>.</p>
+      </div>
+
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:26px; flex:1 1 0;">
+        <div style="width:40px; height:40px; background:#eff6ff; border-radius:8px; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+          <i class="fa-solid fa-shield-halved" style="color:#2563eb; font-size:18px;"></i>
+        </div>
+        <h3 style="font-size:18px; font-weight:700; color:#0f172a; margin-bottom:8px;">Defensive Containment</h3>
+        <p style="font-size:14px; color:#64748b; line-height:1.45;">Isolating bowlers who restrict runs (<code style="background:#e2e8f0; padding:2px 6px; border-radius:4px; font-family:'JetBrains Mono'">ER &lt; 7.0</code>) versus those taking expensive wickets.</p>
+      </div>
+
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:26px; flex:1 1 0;">
+        <div style="width:40px; height:40px; background:#eff6ff; border-radius:8px; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+          <i class="fa-solid fa-repeat" style="color:#2563eb; font-size:18px;"></i>
+        </div>
+        <h3 style="font-size:18px; font-weight:700; color:#0f172a; margin-bottom:8px;">Multi-Season Continuity</h3>
+        <p style="font-size:14px; color:#64748b; line-height:1.45;">Joining 2018 and 2019 seasonal datasets using <code style="background:#e2e8f0; padding:2px 6px; border-radius:4px; font-family:'JetBrains Mono'">INNER JOIN</code> on <code style="background:#e2e8f0; padding:2px 6px; border-radius:4px; font-family:'JetBrains Mono'">Player</code> primary keys.</p>
+      </div>
+    </div>
+
+    <!-- Takeaway Banner -->
+    <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:16px 20px; display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <p style="font-size:14px; font-weight:700; color:#1e40af;"><b>SQL Logic Applied:</b> Conditional WHERE filtering, relational joins, and multi-column expressions</p>
+        <p style="font-size:14px; color:#1d4ed8;"><b>Recruiter Skill Takeaway:</b> Translating complex sports business questions into exact analytical SQL parameters.</p>
+      </div>
+      <span style="font-size:13px; color:#2563eb; font-weight:700; background:#ffffff; padding:6px 14px; border-radius:6px; border:1px solid #93c5fd;">Portfolio: Thaarun132</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: Dataset & SQL Workflow (Light Ground) -->
+  <div class="slide-container" id="slide3" style="background:#f8fafc; padding:56px 64px; justify-content:space-between;">
+    <div>
+      <p style="font-size:14px; font-weight:700; color:#2563eb; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Data Architecture & Workflow</p>
+      <h2 style="font-size:32px; font-weight:800; color:#0f172a; margin-bottom:12px;">Relational BigQuery Schema Architecture & Query Pipeline</h2>
+      <p style="font-size:17px; color:#475569;">Four seasonal tables hosted under BigQuery database <code style="background:#e2e8f0; padding:2px 8px; border-radius:4px; font-family:'JetBrains Mono'; font-size:14px;">iplanalysis-508512.IPL_db</code>.</p>
+    </div>
+
+    <!-- Schema Tables & Pipeline Layout -->
+    <div style="display:flex; gap:24px; align-items:stretch;">
+      <div style="flex:1 1 0; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:20px;">
+        <h3 style="font-size:16px; font-weight:700; color:#0f172a; margin-bottom:10px; display:flex; align-items:center; gap:8px;">
+          <i class="fa-solid fa-table" style="color:#2563eb;"></i> Batsmen Tables (2018 / 2019)
+        </h3>
+        <table class="data-table">
+          <thead>
+            <tr><th>Column Name</th><th>Data Type</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td style="font-family:'JetBrains Mono'; font-weight:700;">Player</td><td>STRING (PK)</td><td>Player Identifier Name</td></tr>
+            <tr><td style="font-family:'JetBrains Mono'; font-weight:700;">Runs</td><td>INT64</td><td>Total Season Runs Scored</td></tr>
+            <tr><td style="font-family:'JetBrains Mono'; font-weight:700;">SR</td><td>FLOAT64</td><td>Batting Strike Rate</td></tr>
+            <tr><td style="font-family:'JetBrains Mono'; font-weight:700;">Fours / Sixs</td><td>INT64</td><td>Boundary Counts (4s & 6s)</td></tr>
+            <tr><td style="font-family:'JetBrains Mono'; font-weight:700;">Fiftys</td><td>INT64</td><td>Half Centuries Scored</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display:flex; align-items:center; justify-content:center; font-size:24px; color:#cbd5e1;"><i class="fa-solid fa-link"></i></div>
+
+      <div style="flex:1 1 0; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:20px;">
+        <h3 style="font-size:16px; font-weight:700; color:#0f172a; margin-bottom:10px; display:flex; align-items:center; gap:8px;">
+          <i class="fa-solid fa-table" style="color:#2563eb;"></i> Bowlers Tables (2018 / 2019)
+        </h3>
+        <table class="data-table">
+          <thead>
+            <tr><th>Column Name</th><th>Data Type</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td style="font-family:'JetBrains Mono'; font-weight:700;">Player</td><td>STRING (PK)</td><td>Player Identifier Name</td></tr>
+            <tr><td style="font-family:'JetBrains Mono'; font-weight:700;">Wkts</td><td>INT64</td><td>Total Wickets Taken</td></tr>
+            <tr><td style="font-family:'JetBrains Mono'; font-weight:700;">ER</td><td>FLOAT64</td><td>Economy Rate (Runs/Over)</td></tr>
+            <tr><td style="font-family:'JetBrains Mono'; font-weight:700;">Overs</td><td>FLOAT64</td><td>Total Overs Bowled</td></tr>
+            <tr><td style="font-family:'JetBrains Mono'; font-weight:700;">FourWs</td><td>INT64</td><td>4-Wicket Hauls Count</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Bottom Metadata -->
+    <div style="display:flex; justify-content:space-between; align-items:center; background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:16px 20px;">
+      <div>
+        <p style="font-size:14px; font-weight:700; color:#0f172a;"><b>BigQuery Schema Path:</b> <span style="font-family:'JetBrains Mono'; color:#2563eb;">iplanalysis-508512.IPL_db.*</span></p>
+        <p style="font-size:14px; color:#64748b;"><b>Recruiter Skill Takeaway:</b> Relational database hygiene, multi-table schema modeling, and primary key alignment.</p>
+      </div>
+      <span style="font-size:13px; color:#2563eb; font-weight:700;">Repository: Thaarun132</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: Team Performance Insight (Query 8) -->
+  <div class="slide-container" id="slide4" style="background:#ffffff; padding:56px 64px; justify-content:space-between;">
+    <div>
+      <p style="font-size:14px; font-weight:700; color:#2563eb; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Team Aggregation Analysis</p>
+      <h2 style="font-size:30px; font-weight:800; color:#0f172a; margin-bottom:12px;">Mumbai Indians Led All Franchises in Aggregate Offensive Output in 2019</h2>
+      <p style="font-size:17px; color:#475569;">Executing a grouped sum aggregation to calculate total runs scored across all batters per team.</p>
+    </div>
+
+    <!-- Code + Live SQL Output Table Split -->
+    <div style="display:flex; gap:24px; align-items:center;">
+      <!-- Exact SQL Query Code Block -->
+      <div style="flex:1.1 1 0;" class="sql-code-block">
+        <p style="color:#94a3b8; font-size:11px; margin-bottom:8px; border-bottom:1px solid #334155; padding-bottom:4px;">-- Query 8: Maximum Runs Scored by Team in 2019</p>
+        <pre><span class="kw">SELECT</span> 
+  Team, 
+  <span class="fn">SUM</span>(Runs) <span class="kw">AS</span> TotalTeamRuns 
+<span class="kw">FROM</span> <span class="tbl">`IPL_db.Batsmen2019`</span> 
+<span class="kw">GROUP BY</span> Team 
+<span class="kw">ORDER BY</span> TotalTeamRuns <span class="kw">DESC</span> 
+<span class="kw">LIMIT</span> <span class="num">1</span>;</pre>
+      </div>
+
+      <!-- Execution Result Table directly inserted -->
+      <div style="flex:0.9 1 0; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px;">
+        <p style="font-size:12px; font-weight:700; color:#2563eb; text-transform:uppercase; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between;">
+          <span><i class="fa-solid fa-table-cells" style="margin-right:6px;"></i>BigQuery Query Result</span>
+          <span style="color:#059669; font-size:11px;"><i class="fa-solid fa-circle-check"></i> Executed in 0.22s</span>
+        </p>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Row</th>
+              <th>Team</th>
+              <th>TotalTeamRuns</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#eff6ff;">
+              <td style="font-weight:700; color:#2563eb;">1</td>
+              <td style="font-weight:800; color:#0f172a;">Mumbai Indians (MI)</td>
+              <td style="font-weight:800; color:#2563eb; font-family:'JetBrains Mono';">2,430</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:16px; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; padding:12px;">
+          <p style="font-size:13px; font-weight:700; color:#0f172a;">Insight Summary:</p>
+          <p style="font-size:13px; color:#64748b; margin-top:2px;">MI's balanced middle order yielded the highest cumulative run output, paving their path to the 2019 IPL title.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Takeaways -->
+    <div style="display:flex; justify-content:space-between; align-items:center; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:14px 20px;">
+      <div>
+        <p style="font-size:14px; font-weight:700; color:#1e40af;"><b>SQL Concept Demonstrated:</b> Categorical Aggregation (<code style="font-family:'JetBrains Mono'">GROUP BY</code> + <code style="font-family:'JetBrains Mono'">SUM()</code>)</p>
+        <p style="font-size:14px; color:#1d4ed8;"><b>Recruiter Skill Takeaway:</b> Ability to aggregate row-level player stats into executive team-level KPIs.</p>
+      </div>
+      <span class="badge-sql">Query 8 Verified</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: Power Hitting Efficiency Insight (Query 2) -->
+  <div class="slide-container" id="slide5" style="background:#f8fafc; padding:56px 64px; justify-content:space-between;">
+    <div>
+      <p style="font-size:14px; font-weight:700; color:#2563eb; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Batting Efficiency Spotlight</p>
+      <h2 style="font-size:30px; font-weight:800; color:#0f172a; margin-bottom:12px;">High Volume Plus Elite Speed: Kane Williamson Dominated IPL 2018</h2>
+      <p style="font-size:17px; color:#475569;">Filtering top run scorers maintaining an aggressive average strike rate threshold (<code style="background:#e2e8f0; padding:2px 6px; border-radius:4px; font-family:'JetBrains Mono';">SR &gt;= 130</code>).</p>
+    </div>
+
+    <!-- Code + Visual Split -->
+    <div style="display:flex; gap:24px; align-items:center;">
+      <div style="flex:1.1 1 0;" class="sql-code-block">
+        <p style="color:#94a3b8; font-size:11px; margin-bottom:8px; border-bottom:1px solid #334155; padding-bottom:4px;">-- Query 2: Most Runs in 2018 with SR >= 130</p>
+        <pre><span class="kw">SELECT</span> 
+  Player, 
+  Runs, 
+  SR 
+<span class="kw">FROM</span> <span class="tbl">`IPL_db.Batsman2018`</span> 
+<span class="kw">WHERE</span> SR &gt;= <span class="num">130</span> 
+<span class="kw">ORDER BY</span> Runs <span class="kw">DESC</span> 
+<span class="kw">LIMIT</span> <span class="num">1</span>;</pre>
+      </div>
+
+      <div style="flex:0.9 1 0; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:20px;">
+        <p style="font-size:12px; font-weight:700; color:#2563eb; text-transform:uppercase; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between;">
+          <span><i class="fa-solid fa-table-cells" style="margin-right:6px;"></i>BigQuery Query Result</span>
+          <span style="color:#059669; font-size:11px;"><i class="fa-solid fa-circle-check"></i> Executed in 0.18s</span>
+        </p>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Row</th>
+              <th>Player</th>
+              <th>Runs</th>
+              <th>SR</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#eff6ff;">
+              <td style="font-weight:700; color:#2563eb;">1</td>
+              <td style="font-weight:800; color:#0f172a;">Kane Williamson</td>
+              <td style="font-weight:800; color:#2563eb; font-family:'JetBrains Mono';">735</td>
+              <td style="font-weight:800; color:#059669; font-family:'JetBrains Mono';">142.44</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px;">
+          <p style="font-size:13px; font-weight:700; color:#0f172a;">Key Takeaway:</p>
+          <p style="font-size:13px; color:#64748b; margin-top:2px;">Williamson captured the Orange Cap by balancing massive scoring volume (735 runs) with high scoring velocity (SR 142.44).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Takeaways -->
+    <div style="display:flex; justify-content:space-between; align-items:center; background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:14px 20px;">
+      <div>
+        <p style="font-size:14px; font-weight:700; color:#0f172a;"><b>SQL Concept Demonstrated:</b> Composite Conditional Filtering (<code style="font-family:'JetBrains Mono'">WHERE</code> + Inequality Comparison)</p>
+        <p style="font-size:14px; color:#64748b;"><b>Recruiter Skill Takeaway:</b> Ability to apply multi-attribute business rules to eliminate low-efficiency stats.</p>
+      </div>
+      <span class="badge-sql">Query 2 Verified</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: Bowling Containment Analysis (Queries 1 & 3) -->
+  <div class="slide-container" id="slide6" style="background:#ffffff; padding:56px 64px; justify-content:space-between;">
+    <div>
+      <p style="font-size:14px; font-weight:700; color:#2563eb; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Bowling Economy & Wicket Containment</p>
+      <h2 style="font-size:30px; font-weight:800; color:#0f172a; margin-bottom:12px;">Rashid Khan Combined Heavy Wicket Tallies With Sub-7.0 Run Restraint</h2>
+      <p style="font-size:17px; color:#475569;">Comparing total top wicket taker (Andrew Tye: 24 Wkts) vs defensive bowling under strict economy (<code style="background:#e2e8f0; padding:2px 6px; border-radius:4px; font-family:'JetBrains Mono';">ER &lt; 7.0</code>).</p>
+    </div>
+
+    <!-- Code + Visual Split -->
+    <div style="display:flex; gap:24px; align-items:center;">
+      <div style="flex:1.1 1 0;" class="sql-code-block">
+        <p style="color:#94a3b8; font-size:11px; margin-bottom:8px; border-bottom:1px solid #334155; padding-bottom:4px;">-- Query 3: Most Wickets in 2018 with ER < 7</p>
+        <pre><span class="kw">SELECT</span> 
+  Player, 
+  Wkts, 
+  ER 
+<span class="kw">FROM</span> <span class="tbl">`IPL_db.Bowlers2018`</span> 
+<span class="kw">WHERE</span> ER &lt; <span class="num">7</span> 
+<span class="kw">ORDER BY</span> Wkts <span class="kw">DESC</span> 
+<span class="kw">LIMIT</span> <span class="num">1</span>;</pre>
+      </div>
+
+      <div style="flex:0.9 1 0; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px;">
+        <p style="font-size:12px; font-weight:700; color:#2563eb; text-transform:uppercase; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between;">
+          <span><i class="fa-solid fa-table-cells" style="margin-right:6px;"></i>BigQuery Query Result</span>
+          <span style="color:#059669; font-size:11px;"><i class="fa-solid fa-circle-check"></i> Executed in 0.19s</span>
+        </p>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Row</th>
+              <th>Player</th>
+              <th>Wkts</th>
+              <th>ER</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#eff6ff;">
+              <td style="font-weight:700; color:#2563eb;">1</td>
+              <td style="font-weight:800; color:#0f172a;">Rashid Khan</td>
+              <td style="font-weight:800; color:#2563eb; font-family:'JetBrains Mono';">21</td>
+              <td style="font-weight:800; color:#059669; font-family:'JetBrains Mono';">6.57</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <!-- Query 1 Context Box -->
+        <div style="margin-top:12px; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; padding:10px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <p style="font-size:11px; font-weight:700; color:#64748b;">Query 1 Benchmark (Pure Wkts Leader):</p>
+            <p style="font-size:13px; font-weight:800; color:#0f172a;">Andrew Tye (24 Wkts)</p>
+          </div>
+          <span style="font-size:11px; background:#f1f5f9; color:#475569; padding:4px 8px; border-radius:4px; font-family:'JetBrains Mono';">ER: 8.46</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Takeaways -->
+    <div style="display:flex; justify-content:space-between; align-items:center; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:14px 20px;">
+      <div>
+        <p style="font-size:14px; font-weight:700; color:#1e40af;"><b>SQL Concept Demonstrated:</b> Dual Constraint Evaluation (<code style="font-family:'JetBrains Mono'">WHERE ER &lt; 7</code> + <code style="font-family:'JetBrains Mono'">ORDER BY Wkts DESC</code>)</p>
+        <p style="font-size:14px; color:#1d4ed8;"><b>Recruiter Skill Takeaway:</b> Uncovering rare hybrid performers who excel in both offensive and defensive metrics.</p>
+      </div>
+      <span class="badge-sql">Queries 1 & 3 Verified</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: Multi-Season Consistency (Queries 4 & 9) -->
+  <div class="slide-container" id="slide7" style="background:#f8fafc; padding:56px 64px; justify-content:space-between;">
+    <div>
+      <p style="font-size:14px; font-weight:700; color:#2563eb; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Multi-Season Continuity</p>
+      <h2 style="font-size:30px; font-weight:800; color:#0f172a; margin-bottom:12px;">Cross-Season Relational JOINs Reveal Multi-Year Batting Stalwarts</h2>
+      <p style="font-size:17px; color:#475569;">Joining 2018 and 2019 seasonal tables via <code style="background:#e2e8f0; padding:2px 6px; border-radius:4px; font-family:'JetBrains Mono';">INNER JOIN</code> on <code style="background:#e2e8f0; padding:2px 6px; border-radius:4px; font-family:'JetBrains Mono';">Player</code> keys.</p>
+    </div>
+
+    <!-- Code + Output Tables -->
+    <div style="display:flex; gap:20px; align-items:stretch;">
+      <div style="flex:1.1 1 0;" class="sql-code-block">
+        <p style="color:#94a3b8; font-size:11px; margin-bottom:6px; border-bottom:1px solid #334155; padding-bottom:4px;">-- Query 4: Most Combined Runs (2018 + 2019)</p>
+        <pre><span class="kw">SELECT</span> 
+  bat2018.Player, 
+  (bat2018.Runs + bat2019.Runs) <span class="kw">AS</span> TotalRuns 
+<span class="kw">FROM</span> <span class="tbl">`IPL_db.Batsman2018`</span> <span class="kw">AS</span> bat2018 
+<span class="kw">INNER JOIN</span> <span class="tbl">`IPL_db.Batsmen2019`</span> <span class="kw">AS</span> bat2019 
+  <span class="kw">ON</span> bat2018.Player = bat2019.Player 
+<span class="kw">ORDER BY</span> TotalRuns <span class="kw">DESC</span> 
+<span class="kw">LIMIT</span> <span class="num">2</span>;</pre>
+      </div>
+
+      <!-- Live SQL Output Tables -->
+      <div style="flex:0.9 1 0; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:18px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <p style="font-size:11px; font-weight:700; color:#2563eb; text-transform:uppercase; margin-bottom:6px;">
+            <i class="fa-solid fa-table-cells" style="margin-right:4px;"></i>Query 4 Result: Top 2 Cross-Season Scorers
+          </p>
+          <table class="data-table">
+            <thead>
+              <tr><th>Row</th><th>Player</th><th>TotalRuns</th></tr>
+            </thead>
+            <tbody>
+              <tr style="background:#eff6ff;">
+                <td style="font-weight:700; color:#2563eb;">1</td>
+                <td style="font-weight:800; color:#0f172a;">KL Rahul</td>
+                <td style="font-weight:800; color:#2563eb; font-family:'JetBrains Mono';">1,252</td>
+              </tr>
+              <tr>
+                <td style="font-weight:700; color:#64748b;">2</td>
+                <td style="font-weight:700; color:#0f172a;">Shikhar Dhawan</td>
+                <td style="font-weight:700; color:#2563eb; font-family:'JetBrains Mono';">1,018</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="margin-top:10px; border-top:1px dashed #cbd5e1; padding-top:10px;">
+          <p style="font-size:11px; font-weight:700; color:#2563eb; text-transform:uppercase; margin-bottom:6px;">
+            <i class="fa-solid fa-table-cells" style="margin-right:4px;"></i>Query 9 Result: Top 50s (Combined)
+          </p>
+          <table class="data-table">
+            <thead>
+              <tr><th>Row</th><th>Player</th><th>TotalFiftys</th></tr>
+            </thead>
+            <tbody>
+              <tr style="background:#f0fdf4;">
+                <td style="font-weight:700; color:#166534;">1</td>
+                <td style="font-weight:800; color:#0f172a;">KL Rahul / David Warner</td>
+                <td style="font-weight:800; color:#166534; font-family:'JetBrains Mono';">12 Fifties</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Takeaways -->
+    <div style="display:flex; justify-content:space-between; align-items:center; background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:14px 20px;">
+      <div>
+        <p style="font-size:14px; font-weight:700; color:#0f172a;"><b>SQL Concept Demonstrated:</b> Multi-Table <code style="font-family:'JetBrains Mono'">INNER JOIN</code> & Column Addition Expressions</p>
+        <p style="font-size:14px; color:#64748b;"><b>Recruiter Skill Takeaway:</b> Ability to combine disparate annual tables without row duplication or Cartesian products.</p>
+      </div>
+      <span class="badge-sql">Queries 4 & 9 Verified</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: Calculated Boundary Analytics & Bowling Milestones (Queries 5, 6, 7) -->
+  <div class="slide-container" id="slide8" style="background:#ffffff; padding:56px 64px; justify-content:space-between;">
+    <div>
+      <p style="font-size:14px; font-weight:700; color:#2563eb; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Calculated Fields & Filtering</p>
+      <h2 style="font-size:30px; font-weight:800; color:#0f172a; margin-bottom:12px;">Derived Fields Highlight Extreme Boundary Impact & Special Hauls</h2>
+      <p style="font-size:17px; color:#475569;">Creating aliased boundary sum calculations (<code style="background:#e2e8f0; padding:2px 6px; border-radius:4px; font-family:'JetBrains Mono';">Fours + Sixs</code>) and low-over filters.</p>
+    </div>
+
+    <!-- Code + Result Cards -->
+    <div style="display:flex; gap:20px; align-items:center;">
+      <div style="flex:1.1 1 0;" class="sql-code-block">
+        <p style="color:#94a3b8; font-size:11px; margin-bottom:6px; border-bottom:1px solid #334155; padding-bottom:4px;">-- Query 5: Max Boundaries (Fours + Sixs) in 2018</p>
+        <pre><span class="kw">SELECT</span> 
+  Player, 
+  (Fours + Sixs) <span class="kw">AS</span> TotalBoundaries 
+<span class="kw">FROM</span> <span class="tbl">`IPL_db.Batsman2018`</span> 
+<span class="kw">ORDER BY</span> TotalBoundaries <span class="kw">DESC</span> 
+<span class="kw">LIMIT</span> <span class="num">1</span>;</pre>
+      </div>
+
+      <div style="flex:0.9 1 0; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:18px;">
+        <p style="font-size:11px; font-weight:700; color:#2563eb; text-transform:uppercase; margin-bottom:8px;">
+          <i class="fa-solid fa-table-cells" style="margin-right:4px;"></i>Query 5 Result: Boundary King
+        </p>
+        <table class="data-table">
+          <thead>
+            <tr><th>Row</th><th>Player</th><th>TotalBoundaries</th></tr>
+          </thead>
+          <tbody>
+            <tr style="background:#eff6ff;">
+              <td style="font-weight:700; color:#2563eb;">1</td>
+              <td style="font-weight:800; color:#0f172a;">Rishabh Pant</td>
+              <td style="font-weight:800; color:#2563eb; font-family:'JetBrains Mono';">105 (68 Fours + 37 Sixes)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top:12px; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; padding:10px;">
+          <p style="font-size:11px; font-weight:700; color:#0f172a; margin-bottom:4px;">Query 6 & 7 Additional Insights:</p>
+          <ul style="font-size:12px; color:#475569; padding-left:16px; line-height:1.4;">
+            <li><b>Query 6 (4-Wicket Hauls 2019):</b> Isolated bowlers with <code style="font-family:'JetBrains Mono'">FourWs &gt; 0</code> (e.g. Kagiso Rabada, Lasith Malinga).</li>
+            <li><b>Query 7 (Least Overs Bowled 2018):</b> Identified part-time bowling options using <code style="font-family:'JetBrains Mono'">ORDER BY Overs ASC LIMIT 5</code>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Takeaways -->
+    <div style="display:flex; justify-content:space-between; align-items:center; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:14px 20px;">
+      <div>
+        <p style="font-size:14px; font-weight:700; color:#1e40af;"><b>SQL Concept Demonstrated:</b> Custom Calculated Projections & Boundary Aliasing</p>
+        <p style="font-size:14px; color:#1d4ed8;"><b>Recruiter Skill Takeaway:</b> Creating novel metrics directly inside SQL <code style="font-family:'JetBrains Mono'">SELECT</code> projections without modifying underlying tables.</p>
+      </div>
+      <span class="badge-sql">Queries 5, 6, 7 Verified</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: Technical Skills Demonstrated (Light Ground) -->
+  <div class="slide-container" id="slide9" style="background:#f8fafc; padding:56px 64px; justify-content:space-between;">
+    <div>
+      <p style="font-size:14px; font-weight:700; color:#2563eb; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Candidate Technical Competencies</p>
+      <h2 style="font-size:32px; font-weight:800; color:#0f172a; margin-bottom:12px;">Full-Stack Data Analyst Capabilities: SQL Rigor & Analytics Storytelling</h2>
+      <p style="font-size:17px; color:#475569;">Summary of technical tools and SQL querying techniques showcased throughout this IPL case study.</p>
+    </div>
+
+    <!-- 4 Box Matrix -->
+    <div style="display:flex; gap:20px; width:100%;">
+      <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:24px; flex:1 1 0;">
+        <i class="fa-solid fa-database" style="color:#2563eb; font-size:24px; margin-bottom:12px;"></i>
+        <h3 style="font-size:17px; font-weight:700; color:#0f172a; margin-bottom:6px;">Advanced Relational SQL</h3>
+        <p style="font-size:13px; color:#64748b; line-height:1.45;">INNER JOINs, multi-table column arithmetic, GROUP BY aggregations, ORDER BY logic, HAVING / WHERE filters.</p>
+      </div>
+
+      <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:24px; flex:1 1 0;">
+        <i class="fa-solid fa-cloud" style="color:#2563eb; font-size:24px; margin-bottom:12px;"></i>
+        <h3 style="font-size:17px; font-weight:700; color:#0f172a; margin-bottom:6px;">Google BigQuery</h3>
+        <p style="font-size:13px; color:#64748b; line-height:1.45;">Cloud data warehouse query execution, dataset schema management, and cost-efficient execution planning.</p>
+      </div>
+
+      <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:24px; flex:1 1 0;">
+        <i class="fa-solid fa-chart-simple" style="color:#2563eb; font-size:24px; margin-bottom:12px;"></i>
+        <h3 style="font-size:17px; font-weight:700; color:#0f172a; margin-bottom:6px;">KPI Definition</h3>
+        <p style="font-size:13px; color:#64748b; line-height:1.45;">Formulating new performance indexes combining boundaries, economy rates, strike rates, and total runs.</p>
+      </div>
+
+      <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:24px; flex:1 1 0;">
+        <i class="fa-solid fa-comment-dots" style="color:#2563eb; font-size:24px; margin-bottom:12px;"></i>
+        <h3 style="font-size:17px; font-weight:700; color:#0f172a; margin-bottom:6px;">Data Storytelling</h3>
+        <p style="font-size:13px; color:#64748b; line-height:1.45;">Translating query outputs into executive-level slides formatted for recruiter review and stakeholders.</p>
+      </div>
+    </div>
+
+    <!-- Bottom Takeaways -->
+    <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:16px 20px; display:flex; justify-content:space-between; align-items:center;">
+      <p style="font-size:14px; color:#0f172a; font-weight:600;"><b>Candidate Profile:</b> Thaarun132 | Ready for Data Analyst & Business Intelligence roles.</p>
+      <span style="font-size:13px; color:#2563eb; font-weight:700; font-family:'JetBrains Mono';">github.com/Thaarun132</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: Final CTA for Recruiters (Dark Ground) -->
+  <div class="slide-container" id="slide10" style="background:#0f172a; padding:64px; justify-content:center; align-items:center; text-align:center;">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+      <span style="background:#2563eb; color:#ffffff; font-size:13px; font-weight:700; padding:6px 14px; border-radius:6px; letter-spacing:1px; text-transform:uppercase;">Data Analyst Candidate</span>
+    </div>
+    <h1 style="font-size:44px; font-weight:800; color:#f8fafc; margin-bottom:16px; max-width:850px; line-height:1.15;">
+      Let's Connect & Build High-Impact SQL Data Solutions
+    </h1>
+    <p style="font-size:18px; color:#94a3b8; max-width:700px; margin-bottom:36px; line-height:1.5;">
+      Open for Data Analyst, SQL Developer, and Business Intelligence roles. I bring strong relational querying, cloud data warehousing, and clear executive data storytelling capabilities.
+    </p>
+
+    <!-- Contact & GitHub Cards Layout -->
+    <div style="display:flex; gap:20px; align-items:center;">
+      <a href="https://github.com/Thaarun132" target="_blank" style="text-decoration:none; background:#1e293b; border:1px solid #3b82f6; border-radius:10px; padding:16px 28px; display:flex; align-items:center; gap:12px; transition:all 0.2s;">
+        <i class="fa-brands fa-github" style="color:#38bdf8; font-size:24px;"></i>
+        <div style="text-align:left;">
+          <p style="color:#94a3b8; font-size:12px;">GitHub Repository</p>
+          <p style="color:#f8fafc; font-size:16px; font-weight:700; font-family:'JetBrains Mono';">github.com/Thaarun132</p>
+        </div>
+      </a>
+
+      <div style="background:#1e293b; border:1px solid #334155; border-radius:10px; padding:16px 28px; display:flex; align-items:center; gap:12px;">
+        <i class="fa-solid fa-code" style="color:#34d399; font-size:24px;"></i>
+        <div style="text-align:left;">
+          <p style="color:#94a3b8; font-size:12px;">SQL Solution File</p>
+          <p style="color:#f8fafc; font-size:16px; font-weight:700; font-family:'JetBrains Mono';">IPL_Solution.sql</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
